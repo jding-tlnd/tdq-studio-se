@@ -86,6 +86,9 @@ import org.talend.cwm.relational.TdView;
 import org.talend.dataquality.PluginConstant;
 import org.talend.dataquality.analysis.Analysis;
 import org.talend.dataquality.domain.pattern.Pattern;
+import org.talend.dataquality.indicators.Indicator;
+import org.talend.dataquality.indicators.RegexpMatchingIndicator;
+import org.talend.dataquality.indicators.SqlPatternMatchingIndicator;
 import org.talend.dataquality.indicators.definition.IndicatorDefinition;
 import org.talend.dataquality.properties.TDQAnalysisItem;
 import org.talend.dataquality.properties.TDQBusinessRuleItem;
@@ -4049,6 +4052,26 @@ public final class RepositoryNodeHelper {
             }
         }
         return null;
+    }
+
+    /**
+     * this can support the reference project node.
+     * 
+     * @param indicator
+     * @return like Copy_of_Row Count 0.1(@ref1)
+     * @return like Copy_of_Row Count 0.1
+     * @return like Blank text
+     */
+    public static String getDisplayLabelInEditor(Indicator indicator) {
+        if (indicator instanceof RegexpMatchingIndicator || indicator instanceof SqlPatternMatchingIndicator) {
+            return indicator.getName();
+        }
+        DQRepositoryNode node = recursiveFind(indicator.getIndicatorDefinition());
+        // for Range/ Inter Quatile Range node is null
+        if (node == null) {
+            return indicator.getName();
+        }
+        return node.getDisplayTextWithProjectName();
     }
 
     public static String getDisplayLabel(IRepositoryNode node) {
