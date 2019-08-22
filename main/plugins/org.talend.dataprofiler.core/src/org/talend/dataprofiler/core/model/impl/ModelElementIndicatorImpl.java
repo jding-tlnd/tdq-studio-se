@@ -76,6 +76,7 @@ import org.talend.dataquality.indicators.impl.WellFormIntePhoneCountIndicatorImp
 import org.talend.dataquality.indicators.impl.WellFormNationalPhoneCountIndicatorImpl;
 import org.talend.dq.helper.RepositoryNodeHelper;
 import org.talend.dq.indicators.definitions.DefinitionHandler;
+import org.talend.dq.nodes.DQRepositoryNode;
 import org.talend.dq.nodes.indicator.type.IndicatorEnum;
 import org.talend.repository.model.IRepositoryNode;
 import org.talend.repository.model.RepositoryNode;
@@ -162,9 +163,10 @@ public abstract class ModelElementIndicatorImpl implements ModelElementIndicator
         if (indicator == null) {
             return false;
         }
-        String displayTextWithProjectName =
-                RepositoryNodeHelper.recursiveFind(indicator.getIndicatorDefinition()).getDisplayTextWithProjectName();
-        IndicatorUnit indicatorUnit = specialIndicatorUnitMap.get(displayTextWithProjectName);
+        DQRepositoryNode node = RepositoryNodeHelper.recursiveFind(indicator.getIndicatorDefinition());
+        // for Inter Quartile Range and Range the node is null
+        String indicatorName = node == null ? indicator.getName() : node.getDisplayTextWithProjectName();
+        IndicatorUnit indicatorUnit = specialIndicatorUnitMap.get(indicatorName);
         return this.specialIndicatorUnitList.contains(indicatorUnit);
     }
 
