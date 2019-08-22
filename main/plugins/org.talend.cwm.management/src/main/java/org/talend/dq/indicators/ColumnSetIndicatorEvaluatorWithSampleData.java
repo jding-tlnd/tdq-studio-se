@@ -31,7 +31,6 @@ public class ColumnSetIndicatorEvaluatorWithSampleData extends ColumnSetIndicato
      */
     public ColumnSetIndicatorEvaluatorWithSampleData(Analysis analysis) {
         super(analysis);
-        this.isDelimitedFile = false;
     }
 
     /*
